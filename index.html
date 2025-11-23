@@ -1,464 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React macOS Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* For modern, macOS-style scrollbars */
+      /* Firefox */
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(155, 155, 155, 0.7) transparent;
+      }
+      
+      /* Webkit (Chrome, Safari, Edge) */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent; /* Makes track invisible */
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E CHARAN KUMAR REDDY | AI+ Prompt Engineer</title>
-    <meta name="description"
-        content="Portfolio of E Charan Kumar Reddy, an AI+ Prompt Engineer specializing in creating innovative solutions without traditional coding.">
+      /* Slide Transitions */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-in-out forwards;
+      }
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+      @keyframes slideInRight {
+        from { transform: translateX(40px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      .animate-slide-in-right {
+        animation: slideInRight 0.5s ease-in-out forwards;
+      }
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      @keyframes zoomIn {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+      .animate-zoom-in {
+        animation: zoomIn 0.5s ease-in-out forwards;
+      }
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="styles.css">
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function () {
-            // https://dashboard.emailjs.com/admin/account
-            emailjs.init("_KIpKmWfbZ2H4Yp00");
-        })();
-    </script>
+      /* Enhanced Nani AI Orb Animations */
+      
+      /* Idle State: Gentle, slow breathing */
+      @keyframes nani-pulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.05); opacity: 1; }
+      }
+      .nani-core-idle { 
+          animation: nani-pulse 5s ease-in-out infinite; 
+          transform-origin: center;
+      }
+      .nani-ring1-idle {
+          animation: nani-pulse 5s ease-in-out infinite;
+          transform-origin: center;
+          animation-delay: -2.5s;
+      }
+      .nani-ring2-idle {
+          animation: nani-pulse 5s ease-in-out infinite;
+          transform-origin: center;
+      }
+
+      /* Listening State: Active listening with rotating rings */
+      @keyframes nani-subtle-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+      }
+      .nani-core-listening { 
+        animation: nani-subtle-pulse 1.5s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      @keyframes nani-rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes nani-rotate-reverse {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+      }
+      .nani-ring1-listening {
+        animation: nani-rotate 15s linear infinite;
+        transform-origin: center;
+      }
+      .nani-ring2-listening {
+        animation: nani-rotate-reverse 12s linear infinite;
+        transform-origin: center;
+      }
+
+      /* Processing State: Faster, more energetic thinking */
+       .nani-core-processing {
+        animation: nani-rotate 1.5s linear infinite reverse, nani-pulse 0.8s ease-in-out infinite;
+        transform-origin: center;
+      }
+      .nani-ring1-processing {
+        animation: nani-rotate 2s linear infinite;
+        transform-origin: center;
+      }
+       .nani-ring2-processing {
+        animation: nani-rotate-reverse 1.5s linear infinite;
+        transform-origin: center;
+      }
+
+      /* Speaking State: Rhythmic pulsing like sound waves */
+      @keyframes nani-speak-core {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+      @keyframes nani-speak-wave {
+        0% { transform: scale(0.8); opacity: 0.8; }
+        100% { transform: scale(1.4); opacity: 0; }
+      }
+      .nani-core-speaking {
+        animation: nani-speak-core 0.5s ease-in-out infinite;
+        transform-origin: center;
+      }
+      .nani-ring1-speaking {
+        animation: nani-speak-wave 1.2s ease-out infinite;
+        transform-origin: center;
+      }
+      .nani-ring2-speaking {
+        animation: nani-speak-wave 1.2s ease-out infinite;
+        transform-origin: center;
+        animation-delay: -0.6s;
+      }
+
+      /* Error State: Quick glitch effect */
+      @keyframes nani-error-glitch {
+        0%   { transform: translate(0, 0); }
+        25%  { transform: translate(-3px, 3px); }
+        50%  { transform: translate(3px, -3px); }
+        75%  { transform: translate(-3px, -3px); }
+        100% { transform: translate(0, 0); }
+      }
+      .nani-all-error { animation: nani-error-glitch 0.15s linear 4; }
+
+      /* Nani message highlight */
+      @keyframes speaking-glow {
+          0%, 100% { box-shadow: 0 0 8px 2px rgba(168, 85, 247, 0); }
+          50% { box-shadow: 0 0 12px 4px rgba(168, 85, 247, 0.5); }
+      }
+      .animate-speaking-glow {
+          animation: speaking-glow 2s ease-in-out infinite;
+      }
+      
+      /* macOS specific effects */
+      @keyframes minimize-effect {
+        from {
+          transform: scale(1);
+          opacity: 1;
+        }
+        to {
+          transform: scale(0.1) translateY(60vh);
+          opacity: 0;
+        }
+      }
+      .animate-minimize {
+        animation: minimize-effect 0.4s cubic-bezier(0.45, 0, 0.85, 0.55) forwards;
+        pointer-events: none;
+        transform-origin: 50% 200%; /* Creates a nice arc effect */
+      }
+      
+      @keyframes close-pop-effect {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        80% {
+          transform: scale(1.03);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+      }
+      .animate-close-pop {
+        animation: close-pop-effect 0.2s ease-out forwards;
+        pointer-events: none;
+      }
+
+      @keyframes dock-bounce {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-12px);
+        }
+      }
+      .animate-dock-bounce {
+        animation: dock-bounce 0.5s ease-in-out;
+      }
+
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        .desktop-item {
+          display: none !important;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.25.0",
+    "jszip": "https://cdn.skypack.dev/jszip",
+    "pptxgenjs": "https://cdn.skypack.dev/pptxgenjs"
+  }
+}
+</script>
 </head>
-
-<body>
-    <canvas id="bg-canvas"></canvas>
-    <div class="bg-overlay"></div>
-
-    <header class="header">
-        <div class="container nav-container">
-            <a href="#home" class="logo">E CHARAN<span>.</span></a>
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li><a href="#home" class="nav-link active">Home</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#education" class="nav-link">Education</a></li>
-                    <li><a href="#projects" class="nav-link">Projects</a></li>
-                    <li><a href="#services" class="nav-link">Services</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                </ul>
-                <button class="mobile-menu-btn" aria-label="Toggle menu">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="container hero-container">
-                <div class="hero-content fade-in-up">
-                    <span class="greeting">Hello, I'm</span>
-                    <h1 class="hero-title">E CHARAN <br>KUMAR REDDY</h1>
-                    <h2 class="hero-subtitle">AI+ Prompt Engineer</h2>
-                    <p class="hero-description">
-                        Exploring new ideas daily and building the future with AI. Passionate about leveraging AI
-                        through prompt engineering to create innovative solutions without traditional coding. Currently
-                        mastering AI agents to transform ideas into reality.
-                    </p>
-                    <div class="hero-btns">
-                        <a href="#contact" class="btn btn-primary">Get In Touch</a>
-                        <a href="#about" class="btn btn-outline">About Me</a>
-                    </div>
-                </div>
-                <div class="hero-visual fade-in-up delay-200">
-                    <div class="hero-image-wrapper">
-                        <img src="profile.jpg" alt="E Charan Kumar Reddy" class="hero-img">
-                    </div>
-                    <div class="vibe-tag glass">
-                        <i class="fas fa-bolt"></i> Vibe Coder
-                    </div>
-                    <div class="glowing-orb"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section about">
-            <div class="container">
-                <div class="section-header fade-in-up">
-                    <span class="section-subtitle">Who I Am</span>
-                    <h2 class="section-title">About Me</h2>
-                </div>
-
-                <div class="about-grid">
-                    <div class="about-content fade-in-up">
-                        <h3>My Journey</h3>
-                        <p>I am passionate about exploring new things and updating myself daily. My strength lies in
-                            crafting complete code solutions using AI through prompt engineering — even without
-                            traditional coding knowledge.</p>
-                        <p>Currently focused on learning AI agents and applying them across different domains to create
-                            innovative solutions that solve real-world problems.</p>
-
-
-                    </div>
-
-                    <div class="about-stats fade-in-up delay-200">
-                        <div class="stat-card glass">
-                            <i class="fas fa-bullseye"></i>
-                            <h4>Current Focus</h4>
-                            <p>AI agents and cross-domain applications</p>
-                        </div>
-                        <div class="stat-card glass">
-                            <i class="fas fa-lightbulb"></i>
-                            <h4>Innovation</h4>
-                            <p>Exploring cutting-edge AI technologies daily</p>
-                        </div>
-                        <div class="stat-card glass">
-                            <i class="fas fa-code"></i>
-                            <h4>What I Do</h4>
-                            <p>Building solutions through intelligent prompt engineering</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Education Section -->
-        <section id="education" class="section education">
-            <div class="container">
-                <div class="section-header fade-in-up">
-                    <span class="section-subtitle">My Journey</span>
-                    <h2 class="section-title">Education</h2>
-                </div>
-
-                <div class="education-timeline">
-                    <!-- Item 1 -->
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content glass">
-                            <div class="timeline-header">
-                                <i class="fas fa-graduation-cap"></i>
-                                <h4>B.Tech in ECE</h4>
-                            </div>
-                            <p>Kuppam Engineering College</p>
-                        </div>
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content glass">
-                            <div class="timeline-header">
-                                <i class="fas fa-university"></i>
-                                <h4>PUC (PCME)</h4>
-                            </div>
-                            <p>Sri Bhagawan Mahaveer Jain College, KGF</p>
-                        </div>
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content glass">
-                            <div class="timeline-header">
-                                <i class="fas fa-school"></i>
-                                <h4>10th Standard</h4>
-                            </div>
-                            <p>Sri Vivekananda English Medium High School, Santhipuram</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="section projects">
-            <div class="container">
-                <div class="section-header fade-in-up">
-                    <span class="section-subtitle">My Work</span>
-                    <h2 class="section-title">Featured Projects</h2>
-                    <p>AI-powered solutions showcasing innovation in prompt engineering</p>
-                </div>
-
-                <div class="projects-grid">
-                    <!-- Project 1 -->
-                    <article class="project-card glass fade-in-up">
-                        <div class="project-image">
-                            <img src="realtime_translator.png" alt="Real-Time Language Translator">
-                        </div>
-                        <div class="project-status in-progress">In Progress</div>
-                        <div class="project-content">
-                            <h3>Real-Time Language Translator</h3>
-                            <p>AI-powered tool allowing users to select input and output languages for dynamic
-                                translation. Currently expanding this functionality into other applications using
-                                agent-based systems.</p>
-                            <div class="tags">
-                                <span class="tag">AI-Generated Code</span>
-                                <span class="tag">Prompt Engineering</span>
-                                <span class="tag">Real-time Translation</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/reddycharan348/real-time-language-translator"
-                                    target="_blank" class="link-btn"><i class="fab fa-github"></i> GitHub</a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project 2 -->
-                    <article class="project-card glass fade-in-up delay-100">
-                        <div class="project-image">
-                            <img src="adit_tax_consultancy.png" alt="Audit & Tax Consultancy Website">
-                        </div>
-                        <div class="project-status finished">Finished</div>
-                        <div class="project-content">
-                            <h3>Audit & Tax Consultancy Website</h3>
-                            <p>Designed and developed a comprehensive website to represent a local consultancy firm with
-                                modern design and user-friendly interface.</p>
-                            <div class="tags">
-                                <span class="tag">AI-Generated Code</span>
-                                <span class="tag">Web Design</span>
-                                <span class="tag">Business Solutions</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://www.baluassociates.net/" target="_blank" class="link-btn"><i
-                                        class="fas fa-external-link-alt"></i> Visit Site</a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project 3 -->
-                    <article class="project-card glass fade-in-up delay-200">
-                        <div class="project-image">
-                            <img src="clothing_store.png" alt="Clothing Store Website">
-                        </div>
-                        <div class="project-status finished">Finished</div>
-                        <div class="project-content">
-                            <h3>Clothing Store Website</h3>
-                            <p>Created an online storefront for a local apparel retailer with e-commerce functionality
-                                and responsive design.</p>
-                            <div class="tags">
-                                <span class="tag">AI-Generated Code</span>
-                                <span class="tag">E-commerce</span>
-                                <span class="tag">Responsive Design</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="#" class="link-btn"><i class="fab fa-github"></i> GitHub</a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project 4 -->
-                    <article class="project-card glass fade-in-up delay-300">
-                        <div class="project-image">
-                            <img src="rfid_attendance.png" alt="RFID Based Attendance">
-                        </div>
-                        <div class="project-status finished">Finished</div>
-                        <div class="project-content">
-                            <h3>RFID Based Attendance with Google Sheets Integration</h3>
-                            <p>An automated attendance system using RFID technology to track entry and exit efficiently.
-                                Designed for schools and offices to streamline attendance tracking.</p>
-                            <div class="tags">
-                                <span class="tag">IoT</span>
-                                <span class="tag">Embedded Systems</span>
-                                <span class="tag">RFID</span>
-                                <span class="tag">Maker</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/reddycharan348" target="_blank" class="link-btn"><i
-                                        class="fab fa-github"></i> GitHub</a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project 5 -->
-                    <article class="project-card glass fade-in-up delay-300">
-                        <div class="project-image">
-                            <img src="shakthi_portfolio_builder.png" alt="Portfolio Builder Website">
-                        </div>
-                        <div class="project-status finished">Finished</div>
-                        <div class="project-content">
-                            <h3>Portfolio Builder Website</h3>
-                            <p>A smart tool that builds stunning portfolios by asking a few simple questions. Users can
-                                preview their site and download the complete code instantly.</p>
-                            <div class="tags">
-                                <span class="tag">Web Development</span>
-                                <span class="tag">UI/UX Design</span>
-                                <span class="tag">No-Code Tool</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/nani-348/Shakthi-Portfolio-Builder" target="_blank"
-                                    class="link-btn"><i class="fab fa-github"></i> GitHub</a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project 6 -->
-                    <article class="project-card glass fade-in-up delay-300">
-                        <div class="project-image">
-                            <img src="nani_macos_simulator.png" alt="Nani macOS Simulator">
-                        </div>
-                        <div class="project-status finished">Finished</div>
-                        <div class="project-content">
-                            <h3>Nani macOS Simulator</h3>
-                            <p>A comprehensive web-based OS simulator featuring a suite of AI tools. Includes
-                                prompt-to-PPT/Word/Excel generation, 'Cherry IDE' for coding, a custom chatbot with
-                                voice flow, and a portfolio builder. Offers a full desktop experience on web.</p>
-                            <div class="tags">
-                                <span class="tag">AI Suite</span>
-                                <span class="tag">Web OS</span>
-                                <span class="tag">Productivity</span>
-                                <span class="tag">React</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/nani-348/Nani-macOS-Simulator" target="_blank"
-                                    class="link-btn"><i class="fab fa-github"></i> GitHub</a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-        <section id="services" class="section services">
-            <div class="container">
-                <div class="section-header fade-in-up">
-                    <span class="section-subtitle">What I Offer</span>
-                    <h2 class="section-title">Services I Plan to Offer</h2>
-                    <p>Coming soon - innovative solutions powered by AI</p>
-                </div>
-
-                <div class="services-grid">
-                    <div class="service-card glass fade-in-up">
-                        <div class="service-icon">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <h3>Web Design Powered by AI</h3>
-                        <p>Creating modern, responsive websites using AI-generated code and innovative design
-                            approaches.</p>
-                        <span class="coming-soon-badge">Coming Soon</span>
-                    </div>
-
-                    <div class="service-card glass fade-in-up delay-100">
-                        <div class="service-icon">
-                            <i class="fas fa-terminal"></i>
-                        </div>
-                        <h3>Prompt Engineering Solutions</h3>
-                        <p>Custom code solutions crafted through advanced prompt engineering techniques for various
-                            business needs.</p>
-                        <span class="coming-soon-badge">Coming Soon</span>
-                    </div>
-
-                    <div class="service-card glass fade-in-up delay-200">
-                        <div class="service-icon">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <h3>AI Agent Integrations</h3>
-                        <p>Implementing intelligent AI agents to automate processes and enhance user experiences across
-                            platforms.</p>
-                        <span class="coming-soon-badge">Coming Soon</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section contact">
-            <div class="container">
-                <div class="section-header fade-in-up">
-                    <span class="section-subtitle">Get In Touch</span>
-                    <h2 class="section-title">Let's Discuss</h2>
-                    <p>Let's discuss how AI can transform your projects</p>
-                </div>
-
-                <div class="contact-wrapper">
-                    <div class="contact-info fade-in-up">
-                        <div class="info-item glass">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <h4>Email</h4>
-                                <a href="mailto:reddycharan348@gmail.com">reddycharan348@gmail.com</a>
-                            </div>
-                        </div>
-                        <div class="info-item glass">
-                            <i class="fab fa-github"></i>
-                            <div>
-                                <h4>GitHub</h4>
-                                <a href="https://github.com/reddycharan348" target="_blank">reddycharan348</a>
-                            </div>
-                        </div>
-                        <div class="info-item glass">
-                            <i class="fab fa-linkedin"></i>
-                            <div>
-                                <h4>LinkedIn</h4>
-                                <a href="https://www.linkedin.com/in/e-charan-kumar-reddy/" target="_blank">E Charan
-                                    Kumar Reddy</a>
-                            </div>
-                        </div>
-                        <div class="info-item glass">
-                            <i class="fab fa-instagram"></i>
-                            <div>
-                                <h4>Instagram</h4>
-                                <a href="https://www.instagram.com/reddycharan348?utm_source=qr&igsh=MWVjMzJqbHRlZmU4bw=="
-                                    target="_blank">reddycharan348</a>
-                            </div>
-                        </div>
-                        <div class="info-item glass">
-                            <i class="fas fa-user"></i>
-                            <div>
-                                <h4>Name</h4>
-                                <p>E CHARAN KUMAR REDDY</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <form class="contact-form glass fade-in-up delay-200" id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Your Name *</label>
-                            <input type="text" id="name" required placeholder="John Doe">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Your Email *</label>
-                            <input type="email" id="email" required placeholder="john@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Subject *</label>
-                            <input type="text" id="subject" required placeholder="Project Inquiry">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Your Message *</label>
-                            <textarea id="message" rows="5" required
-                                placeholder="Tell me about your project..."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary full-width">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-text">
-                    <p>&copy; 2024 E CHARAN KUMAR REDDY. All Rights Reserved.</p>
-                    <p><a href="mailto:reddycharan348@gmail.com">reddycharan348@gmail.com</a></p>
-                </div>
-                <div class="footer-socials">
-                    <a href="https://github.com/reddycharan348" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/e-charan-kumar-reddy/" target="_blank"><i
-                            class="fab fa-linkedin"></i></a>
-                    <a href="https://www.instagram.com/reddycharan348?utm_source=qr&igsh=MWVjMzJqbHRlZmU4bw=="
-                        target="_blank"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <button id="backToTop" class="back-to-top" aria-label="Back to Top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <script src="script.js"></script>
-</body>
-
+  <body class="overflow-hidden">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

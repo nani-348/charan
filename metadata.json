@@ -1,0 +1,7 @@
+{
+  "name": "Nani macOS Simulator",
+  "description": "A web-based desktop environment that simulates the look and feel of macOS, complete with functional applications like a Word Processor, Spreadsheet, and Presentation Maker, all powered by the Gemini API for content generation.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
